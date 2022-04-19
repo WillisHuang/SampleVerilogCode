@@ -1,0 +1,50 @@
+`timescale 1ns/1ps
+//時鐘產生
+//定義時鐘週期為20ns,
+
+parameter PERIOD = 20;
+
+//第一種 -> 使用initial
+initial begin
+	clk = 0;
+	forever 
+		#(PERIOD/2) clk = ~clk;
+end
+
+//第二種 -> 使用 always
+always begin
+	#(PERIOD/2) clk=0;
+	#(PERIOD/2) clk=1;
+end
+
+
+//reset 產生
+initial begin
+	//reset is active low
+	rst_n = 0;
+	#100;	//100ns delay
+	rst_n = 1;	//reset not active
+	....
+end
+
+//reset 產生 -> 利用task
+//reset 產生
+initial begin
+	reset_task(100); //reset for 100ns
+	....
+end
+
+task reset_task;
+input[15:0] reset_time;		//	reset time
+begin
+	reset = 0;
+	#reset_time
+	reset = 1;
+end
+endtask
+
+
+
+
+
+
